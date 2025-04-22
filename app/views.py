@@ -1,5 +1,6 @@
-from flask import render_template
+from flask import render_template, flash, redirect
 from app import app
+from app.forms import LoginForm
 """
 Представления - обработчики, которые отвечают на запросы веб-браузера,
 Представления в Flask пишутся как Python функции.
@@ -24,3 +25,13 @@ def index():
         title = 'Home',
         user = user,
         posts = posts)
+
+
+# функция представления index опущена для краткости
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    form = LoginForm()
+    return render_template('login.html',
+        title = 'Sign In',
+        form = form)
