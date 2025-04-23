@@ -121,21 +121,6 @@ Jinja2 = ">=3.1"
 pytz = ">=2022.7"
 
 [[package]]
-name = "flask-ext"
-version = "0.1"
-description = "Extensions of Flask"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "Flask-Ext-0.1.tar.gz", hash = "sha256:260fc92e7d4563fe65cdd7bf111b93b37a4a8cce6e087ca62787e3e457437439"},
-    {file = "Flask_Ext-0.1-py3-none-any.whl", hash = "sha256:8c497af589054da3746b117ea3d11d9a09c3aa8dfa46dc434eb605b3854e36bc"},
-]
-
-[package.dependencies]
-Flask = "*"
-
-[[package]]
 name = "flask-login"
 version = "0.6.3"
 description = "User authentication and session management for Flask."
@@ -255,7 +240,7 @@ description = "Lightweight in-process concurrent programming"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
-markers = "python_version == \"3.13\" and (platform_machine == \"aarch64\" or platform_machine == \"ppc64le\" or platform_machine == \"x86_64\" or platform_machine == \"amd64\" or platform_machine == \"AMD64\" or platform_machine == \"win32\" or platform_machine == \"WIN32\")"
+markers = "python_version < \"3.14\" and (platform_machine == \"aarch64\" or platform_machine == \"ppc64le\" or platform_machine == \"x86_64\" or platform_machine == \"amd64\" or platform_machine == \"AMD64\" or platform_machine == \"win32\" or platform_machine == \"WIN32\")"
 files = [
     {file = "greenlet-3.2.1-cp310-cp310-macosx_11_0_universal2.whl", hash = "sha256:777c1281aa7c786738683e302db0f55eb4b0077c20f1dc53db8852ffaea0a6b0"},
     {file = "greenlet-3.2.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:3059c6f286b53ea4711745146ffe5a5c5ff801f62f6c56949446e0f6461f8157"},
@@ -433,6 +418,21 @@ files = [
 
 [package.dependencies]
 setuptools = "*"
+
+[[package]]
+name = "python-dotenv"
+version = "1.1.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "python_dotenv-1.1.0-py3-none-any.whl", hash = "sha256:d7c01d9e2293916c18baf562d95698754b0dbbb5e74d457c45d4f6561fb9d55d"},
+    {file = "python_dotenv-1.1.0.tar.gz", hash = "sha256:41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
 
 [[package]]
 name = "python3-openid"
@@ -705,5 +705,5 @@ email = ["email-validator"]
 
 [metadata]
 lock-version = "2.1"
-python-versions = ">=3.13,<4.0"
-content-hash = "b12c9f56376e5353b064b667247582381d41521420f1d602baf2659415efb2dd"
+python-versions = ">=3.12,<4.0"
+content-hash = "fc6c99099bcb8fe354e3892ea25f4aa36e3361704e2a14b612f37c32056e0330"
