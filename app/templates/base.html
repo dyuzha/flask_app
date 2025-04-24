@@ -1,23 +1,27 @@
 <html>
   <head>
     {% if title %}
-    <title>{{title}} - microblog</title>
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css">
+      <title>{{ title }} - microblog</title>
     {% else %}
-    <title>microblog</title>
+      <title>microblog</title>
+      <link rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css"/>
     {% endif %}
   </head>
   <body>
-    <div>Microblog: <a href="/index">Home</a></div>
+    <div>
+      Microblog:
+      <a href="/index">Home</a>
+      <a href="/login">Login</a>
+    </div>
     <hr>
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-    {% for message in messages %}
-        <li>{{ message }} </li>
-    {% endfor %}
-    </ul>
-    {% endif %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
   </body>
