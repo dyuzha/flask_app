@@ -1,6 +1,5 @@
 import os
 
-
 class Config:
     CSRF_ENABLED = True
     SECRET_KEY = SECRET_KEY = os.environ.get('SECRET_KEY') or \
