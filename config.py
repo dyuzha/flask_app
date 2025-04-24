@@ -4,7 +4,7 @@ import os
 class Config:
     CSRF_ENABLED = True
     SECRET_KEY = SECRET_KEY = os.environ.get('SECRET_KEY') or \
-            'you-will-never-guess'
+        'you-will-never-guess'
 
     OPENID_PROVIDERS = [
         { 'name': 'Google', 'url': 'https://www.google.com/accounts/o8/id' },
