@@ -3,7 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
-from app import db
+from flask_login import UserMixin
+from app import db, login
 
 # class User_(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
@@ -12,7 +13,7 @@ from app import db
 #     password_hash = db.Column(db.String(128))
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
                                                 unique=True)
@@ -48,3 +49,7 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
+
+@login.user_loader
+def load_user(id):
+    return db.session.get(User, int(id))
