@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app.models import User
 from app import app, db
-from app.forms import LoginForm
+from app.forms import LoginForm, RegistrationForm
 from urllib.parse import urlsplit
 """
 Представления - обработчики, которые отвечают на запросы веб-браузера,
@@ -27,9 +27,17 @@ def index():
         }
     ]
     return render_template("index.html",
-        title = 'Home',
-        # user = user,
+        title = 'Home Page',
         posts = posts)
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+    posts = [ {'author': user, 'body': 'Test post #1'},
+             {'author': user, 'body': 'Test post #2'} ]
+    return render_template('user.html', user=user, posts=posts)
+
 
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -58,3 +66,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
