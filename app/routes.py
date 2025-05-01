@@ -62,7 +62,6 @@ def user(username):
     return render_template('user.html', user=user, posts=posts)
 
 
-
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     """Страница входа"""
@@ -106,9 +105,11 @@ def before_request():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """Страница регистрации пользователя"""
+    # Если пользователь авторизован
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RegistrationForm()
+    # Если форма прошла валидацию
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
