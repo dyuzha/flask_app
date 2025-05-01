@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 @login_required
 def edit_profile():
     """Страница редактирования профиля"""
-    form = EditProfileForm() # Если данные прошли валидацию, то они обовляются в бд
+    form = EditProfileForm(original_username=current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
@@ -24,7 +24,7 @@ def edit_profile():
         flash('Your changes have been saved.')
         return redirect(url_for('edit_profile'))
     # Если это GET запрос, значит пользователь еще не редактировал профиль
-    # Поля заполняются текущими данными из б
+    # Поля заполняются текущими данными из бд
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me

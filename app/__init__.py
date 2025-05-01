@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 import logging
-from logging.handlers import SMTPHandler
+from logging.handlers import SMTPHandler, RotatingFileHandler
+import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -39,8 +40,29 @@ def run_mail_logger():
     mail_handler.setLevel(logging.ERROR)
     app.logger.addHandler(mail_handler)
 
-# Если запущен в продакшене и есть конфигурация сервера
-if not app.debug and app.config['MAIL_SERVER']:
-    run_mail_logger()
+def run_journal_log():
+    # Создает папку logs, елси она не найдена
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+
+    file_handler = RotatingFileHandler('logs/flask_app.log', maxBytes=10240,
+                                       backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    file_handler.setLevel(logging.INFO)
+
+    # Подключение к логеру фласк
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Falsk_app startup')
+
+
+# Если запущен в продакшене
+if not app.debug:
+    run_journal_log()
+
+    # Если есть конфигурация сервера
+    if app.config['MAIL_SERVER']:
+        run_mail_logger()
 
 from app import routes, models, errors

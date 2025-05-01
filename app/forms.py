@@ -6,9 +6,26 @@ from app import db
 from app.models import User
 
 class EditProfileForm(FlaskForm):
+    """Форма редактирования пользователя"""
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
+
+    def __init__(self, original_username, *args, **kwargs):
+        """Перегруженный конструктор"""
+        super().__init__(*args, **kwargs)
+        self.original_username = original_username
+
+    def validate_username(self, username):
+        """Валидация имени"""
+        # Если username не равен текущему
+        if username.data != self.original_username:
+            # Выполняется поиск на совпадение
+            user = db.session.scalar(sa.select(User).where(
+                User.username == self.username.data))
+            # Если совпадения найдены, то возвращает ошибку
+            if user is not None:
+                raise ValidationError('Please use a different username')
 
 
 class LoginForm(FlaskForm):
