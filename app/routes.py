@@ -92,6 +92,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
 @app.before_request
 def before_request():
     """Выполняется перед каждым посещением любой страницы"""
